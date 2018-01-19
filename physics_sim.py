@@ -1,5 +1,5 @@
 """
-Do some physics simulation things you know? ---Testing---pls---ignore---
+Do some physics simulation things you know?
 """
 
 import pyglet
