@@ -1,3 +1,6 @@
+# VS Code
 .vscode/settings.json
 .vscode/launch.json
-__pycache__/main_interface.cpython-36.pyc
+
+# PyCache
+__pycache__
