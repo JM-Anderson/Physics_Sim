@@ -39,7 +39,7 @@ if __name__ == '__main__':
 
     # Create graphics batch
     batch = pyglet.graphics.Batch()
-    
+
     # Setup draw event to render each frame
     @window.event
     def on_draw():
