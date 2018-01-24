@@ -1,10 +1,9 @@
 import pyglet
 from pyglet.gl import *
-from pyglet.window import key, mouse
+from pyglet.window import key, mouse, Window
 
 from p_libs.easy_graphics import primitives
 
-WINDOW = 400
 KEY_SENSITIVITY = 1
 MOUSE_SENSITIVITY = 1
 SCROLL_SENSITVITY = 10
@@ -13,14 +12,17 @@ MIN_ZOOM_DIST = 10000
 
 
 # Custom Material Display Window - extends pyglet.window.Window
-class MaterialDisplay(pyglet.window.Window):
+class MaterialDisplay(Window):
 
     # Cube 3D start rotation and start zoom
     xRotation = yRotation = 30
     zDepth = -400
 
     def __init__(self, width, height, title=''):
-        super(MaterialDisplay, self).__init__(width, height, title)
+        super(MaterialDisplay, self).__init__(width, height,
+                                              title,
+                                              resizable=True,
+                                              style=Window.WINDOW_STYLE_TOOL)
 
         self.keys = key.KeyStateHandler()
         self.push_handlers(self.keys)
@@ -35,10 +37,13 @@ class MaterialDisplay(pyglet.window.Window):
         primitives.Primitives.cube_batchmode(self.batch)
 
     @staticmethod
-    def load_window():
-        window = MaterialDisplay(WINDOW, WINDOW, 'Custom Material')
+    def load_window(x, y, title='Custom Material'):
+        window = MaterialDisplay(x, y, title)
         pyglet.clock.schedule_interval(window.update, 1/120.0)
-        pyglet.app.run()
+        return window
+
+    def on_close(self):
+        pyglet.app.exit()
 
     def on_draw(self):
         # Clear the current GL Window
