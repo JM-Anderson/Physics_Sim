@@ -8,8 +8,7 @@ import pyglet_gui.manager
 import pyglet_gui.gui
 from pyglet.gl import *
 
-from p_libs.main_interface import MainWindow
-from p_libs.material_display import MaterialDisplay
+from p_libs.ui.windows import main_interface, material_display
 
 MAIN_WINDOW_SIZE = [800, 450]
 MATERIAL_WINDOW_SIZE = [400, 400]
@@ -25,11 +24,12 @@ if __name__ == '__main__':
 
     # By default the Windows OS will cascade window position
 
-    window1 = MainWindow.load_window(MAIN_WINDOW_SIZE[0],
-                                     MAIN_WINDOW_SIZE[1],
-                                     'Simity sim sim')
-    window2 = MaterialDisplay.load_window(MATERIAL_WINDOW_SIZE[0],
-                                          MATERIAL_WINDOW_SIZE[1])
+    window1 = main_interface.MainWindow.load_window(MAIN_WINDOW_SIZE[0],
+                                                    MAIN_WINDOW_SIZE[1],
+                                                    'Simity sim sim')
+
+    window2 = material_display.MaterialDisplay.load_window(MATERIAL_WINDOW_SIZE[0],
+                                                           MATERIAL_WINDOW_SIZE[1])
     translate_window(window2, MAIN_WINDOW_SIZE[0], 0)
 
     pyglet.app.run()

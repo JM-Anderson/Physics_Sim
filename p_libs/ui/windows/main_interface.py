@@ -10,8 +10,7 @@ from pyglet_gui.constants import *
 import os
 import json
 
-import p_libs.material_display
-from p_libs.ui.sidebar import sidebar_create
+from p_libs.ui.sidebar import sidebar
 
 CWD = os.getcwd()
 
@@ -53,9 +52,10 @@ class MainWindow(pyglet.window.Window):
                                resources_path=os.path.join(CWD, 'theme'))
 
     def load_elements(self):
-        Manager(sidebar_create(),
+        side = sidebar()
+
+        Manager(sidebar.viewer(),
                 window=self,
                 batch=self.batch,
                 theme=self.theme,
-                is_movable=False,
-                anchor=ANCHOR_RIGHT)
+                **sidebar.manager_settings())
