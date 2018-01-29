@@ -3,16 +3,15 @@ Draws main interface elements
 """
 import pyglet
 
-from pyglet_gui.buttons import Button
-from pyglet_gui.gui import Label
 from pyglet_gui.manager import Manager
 from pyglet_gui.theme import Theme
-from pyglet_gui.containers import HorizontalContainer, VerticalContainer, GridContainer
+from pyglet_gui.constants import *
 
 import os
 import json
 
 import p_libs.material_display
+from p_libs.ui.sidebar import sidebar_create
 
 CWD = os.getcwd()
 
@@ -54,9 +53,9 @@ class MainWindow(pyglet.window.Window):
                                resources_path=os.path.join(CWD, 'theme'))
 
     def load_elements(self):
-        sidebar_vlay = VerticalContainer(content=[Label('Vlay')])
-        projection = GridContainer(content=[[Label('Grid')]])
-        main_hlay = HorizontalContainer(content=[projection,
-                                                 sidebar_vlay])
-
-        Manager(main_hlay, window=self, batch=self.batch, theme=self.theme)
+        Manager(sidebar_create(),
+                window=self,
+                batch=self.batch,
+                theme=self.theme,
+                is_movable=False,
+                anchor=ANCHOR_RIGHT)
