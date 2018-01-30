@@ -2,7 +2,7 @@ import pyglet
 from pyglet.gl import *
 from pyglet.window import key, mouse, Window
 
-from p_libs.easy_graphics import primitives
+from p_libs.graphics import primitives_3d
 
 KEY_SENSITIVITY = 1
 MOUSE_SENSITIVITY = 1
@@ -34,7 +34,7 @@ class MaterialDisplay(Window):
         glEnable(GL_DEPTH_TEST)
 
         # Add cube to batch
-        primitives.Primitives.cube_batchmode(self.batch)
+        primitives_3d.Primitives.cube_batchmode(self.batch)
 
     @staticmethod
     def load_window(x, y, title='Custom Material'):
