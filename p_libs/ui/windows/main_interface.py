@@ -6,9 +6,9 @@ from pyglet_gui.manager import Manager
 
 from p_libs.ui.elements.sidebar import sidebar
 
-from p_libs.graphics.primitives_2d import square
+from p_libs.graphics.primitives_2d import prim_creator
 
-from pyglet.gl import GL_QUADS
+from p_libs.physics.sim import sim
 
 
 class MainWindow(pyglet.window.Window):
@@ -47,8 +47,7 @@ class MainWindow(pyglet.window.Window):
                 **elem.manager_settings())
 
     def load_graphics(self):
-        v_list = self.batch.add(4, GL_QUADS, None, 'v2f', 'c3B')
-        square(v_list, 10, 10, 2)
+        self.sim = sim(self.batch)
 
     def on_draw(self):
         self.clear()
