@@ -51,6 +51,7 @@ class MainWindow(pyglet.window.Window):
 
     def on_draw(self):
         self.clear()
+        self.sim.loop()
         self.batch.draw()
 
     def on_close(self):

@@ -1,10 +1,18 @@
 import pyglet
 
-from p_libs.graphics.primitives_2d import prim_creator
+from p_libs.physics.particles import particle_manager
 
 
 class sim:
     def __init__(self, batch):
-        self.prim_creator = prim_creator(batch)
+        self.particle_m = particle_manager(batch)
 
-        self.prim_creator.square(100, 100, 50, [128, 128, 255])
+        particle = self.particle_m.spawn(10, 10)
+
+        particle.move(100, 300)
+
+    # Adds to the main program loop
+    # Called every frame
+    # After window is cleared - before elements are redrawn
+    def loop(self):
+        return
