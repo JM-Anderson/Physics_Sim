@@ -10,11 +10,13 @@ class particle_types(Enum):
 
 
 class particle:
-    def __init__(self, prim_creator, x, y, r=5, p_type=particle_types.square):
+    def __init__(self, prim_creator, sim, x, y, r, p_type):
         if p_type == particle_types.square:
             self.prim = prim_creator.square(x, y, r)
         elif p_type == particle_types.circle:
             self.prim = prim_creator.circle(x, y, r)
+
+        self.constants = sim.constants
 
         # Graphical properties
         self.size = r
@@ -22,6 +24,7 @@ class particle:
 
         # Physics properties
         self.mass = 100
+        self.damping = 1
 
         # Current forces acting on the particle
         self.force_x = 0
@@ -52,11 +55,12 @@ class particle:
 class particle_manager:
     particles = []
 
-    def __init__(self, batch):
+    def __init__(self, batch, sim):
         self.prim_creator = prim_creator(batch)
+        self.sim = sim
 
     def spawn(self, x, y, r=5, p_type=particle_types.square):
-        p = particle(self.prim_creator, x, y, p_type=p_type, r=r)
+        p = particle(self.prim_creator, self.sim, x, y, r, p_type)
 
         self.particles.append(p)
 

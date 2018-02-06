@@ -6,25 +6,32 @@ from p_libs.physics.particles import particle_types
 
 
 class sim:
+    constants = {
+        # Gravity
+        'g': -9.8,
+        'damping': 0.6
+    }
+
     def __init__(self, batch):
-        self.particle_m = particle_manager(batch)
+        self.particle_m = particle_manager(batch, self)
 
         # Used to keep track of time between frames
         self.last_time = time.time()
         self.delta_t = 0
 
-        particle = self.particle_m.spawn(10, 10)
+        self.create_particles()
 
-        particle.move(100, 300)
+    def create_particles(self):
+        particle = self.particle_m.spawn(100, 300)
 
         # Add a force in the Y direction equal to mg (gravity)
-        particle.force_y += -9.8 * particle.mass
+        particle.force_y += self.constants['g'] * particle.mass
 
     def click_spawn(self, x, y, settings):
         p = self.particle_m.spawn(x, y, 3)
 
         if settings['gravity']:
-            p.force_y += -9.8 * p.mass
+            p.force_y += self.constants['g'] * p.mass
         return p
 
     # Adds to the main program loop
