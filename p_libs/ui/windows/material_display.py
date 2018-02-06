@@ -103,9 +103,4 @@ class MaterialDisplay(Window):
             self.zDepth += dy
 
     def on_mouse_scroll(self, x, y, scroll_x, scroll_y):
-        if scroll_y > 0 and self.zDepth >= MAX_ZOOM_DIST:
-            self.zDepth = MAX_ZOOM_DIST
-        elif scroll_y < 0 and self.zDepth <= MIN_ZOOM_DIST:
-            self.zDepth = MIN_ZOOM_DIST
-        else:
-            self.zDepth += scroll_y * SCROLL_SENSITVITY
+        self.zDepth += scroll_y * SCROLL_SENSITVITY
