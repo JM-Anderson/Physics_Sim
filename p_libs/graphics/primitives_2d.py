@@ -3,12 +3,23 @@ from pyglet.gl import GL_QUADS, GL_TRIANGLE_FAN
 from math import sin, cos, pi
 
 
+def gen_square(x, y, r):
+        v_list = [
+            x-r, y-r,
+            x+r, y-r,
+            x+r, y+r,
+            x-r, y+r
+        ]
+        return v_list
+
+
 class primitive:
-    def __init__(self, v_list, x, y, gl_type):
+    def __init__(self, v_list, x, y, r, gl_type):
         self.gl_type = gl_type
         self.v_list = v_list
         self.x = x
         self.y = y
+        self.r = r
 
     def move(self, x, y):
         self.x += x
@@ -21,6 +32,12 @@ class primitive:
             else:
                 self.v_list.vertices[i] += x
 
+    def set_pos(self, x, y):
+        self.x = x
+        self.y = y
+
+        self.v_list.vertices = gen_square(x, y, r)
+
 
 class prim_creator:
     def __init__(self, batch):
@@ -29,16 +46,11 @@ class prim_creator:
     def square(self, x, y, r, color=[255, 0, 0]):
         v_list = self.batch.add(4, GL_QUADS, None, 'v2f', 'c3B')
 
-        v_list.vertices = [
-            x-r, y-r,
-            x+r, y-r,
-            x+r, y+r,
-            x-r, y+r
-        ]
+        v_list.vertices = gen_square(x, y, r)
 
         v_list.colors = multiply_arr(color, 4)
 
-        return primitive(v_list, GL_QUADS, x, y)
+        return primitive(v_list, x, y, r, GL_QUADS)
 
     def circle(self, x, y, r, color=[255, 0, 0]):
         n = 32
@@ -46,7 +58,7 @@ class prim_creator:
         v_list = self.batch.add(n+2, GL_TRIANGLE_FAN, None, 'v2f', 'c3B')
         v_list.vertices = draw_circle(x, y, r, n)
         v_list.colors = multiply_arr(color, n+2)
-        return primitive(v_list, GL_TRIANGLE_FAN, x, y)
+        return primitive(v_list, x, y, r, GL_TRIANGLE_FAN)
 
 
 def multiply_arr(arr, x):

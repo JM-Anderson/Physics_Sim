@@ -19,7 +19,7 @@ class particle:
         self.constants = sim.constants
 
         # Graphical properties
-        self.size = r
+        self.r = r
         self.type = p_type
 
         # Physics properties
@@ -41,12 +41,13 @@ class particle:
         self.y += y
         self.prim.move(x, y)
 
-    def update(self, dt):
-        if self.y > self.size:
-            self.move(self.velocity_x * dt, self.velocity_y * dt)
-        else:
-            self.force_y = 0
+    def set_pos(self, x, y):
+        self.x = x
+        self.y = y
 
+        self.prim.set_pos(x, y)
+
+    def update(self, dt):
         # Calculate and apply acceleration
         self.velocity_x += (self.force_x / self.mass) * dt
         self.velocity_y += (self.force_y / self.mass) * dt
