@@ -55,7 +55,7 @@ class MainWindow(pyglet.window.Window):
         self.all_elements[elem.__class__.__name__] = elem
 
     def load_graphics(self):
-        self.sim = sim(self.batch)
+        self.sim = sim(self.batch, self)
 
     def on_draw(self):
         self.clear()
