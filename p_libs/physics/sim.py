@@ -23,15 +23,14 @@ class sim:
         self.create_particles()
 
     def create_particles(self):
-        particle = self.particle_m.spawn(100, 300, 5)
-
-        # Add a force in the Y direction equal to mg (gravity)
-        particle.force_y += self.constants['g'] * particle.mass
+        return
 
     # Spawns a particle at the mouse's current position with the
     # current material settings
     def click_spawn(self, x, y, settings):
-        p = self.particle_m.spawn(x, y, 3)
+        p = self.particle_m.spawn(x, y,
+                                  settings['radius'],
+                                  particle_types[settings['shape']])
 
         if settings['gravity']:
             p.force_y += self.constants['g'] * p.mass
@@ -56,5 +55,8 @@ class sim:
                 # Time after collision
                 dt2 = self.delta_t - dt1
 
-                particle.velocity_y *= -1
-                particle.set_pos(x, dt2 * particle.velocity_y + particle.r)
+                particle.velocity_y *= -1 * self.constants['damping']
+                particle.set_pos(particle.x, dt2 * particle.velocity_y + particle.r)
+            else:
+                particle.move(particle.velocity_x * self.delta_t,
+                              particle.velocity_y * self.delta_t)

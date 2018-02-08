@@ -2,8 +2,12 @@
 Draws main interface elements
 """
 import pyglet
-from pyglet_gui.manager import Manager
 from pyglet.gl import glClearColor
+
+from pyglet_gui.manager import Manager
+from pyglet_gui.gui import PopupMessage
+
+from threading import Timer
 
 from p_libs.ui.elements.sidebar import sidebar
 from p_libs.graphics.primitives_2d import prim_creator
@@ -60,8 +64,15 @@ class MainWindow(pyglet.window.Window):
 
     def on_mouse_press(self, x, y, button, modifiers):
         if button == pyglet.window.mouse.LEFT:
-            settings = self.all_elements['sidebar'].material_settings
-            self.sim.click_spawn(x, y, settings)
+            settings = self.all_elements['sidebar'].get_settings()
+            if settings is None:
+                label = pyglet.text.Label('Pick a shape',
+                                          x=10, y=10,
+                                          batch=self.batch)
+                fadeout = Timer(3, lambda: label.delete())
+                fadeout.start()
+            else:
+                self.sim.click_spawn(x, y, settings)
 
     def on_close(self):
         pyglet.app.exit()
