@@ -71,13 +71,34 @@ class sim:
                 particle.move(particle.velocity_x * self.delta_t,
                               particle.velocity_y * self.delta_t)
 
-            square = (math.floor(particle.x / 2), math.floor(particle.y / 2))
+            square = (math.floor(particle.x / 6), math.floor(particle.y / 6))
             if square in particle_pos:
                 particle_pos[square].append(particle)
             else:
                 particle_pos[square] = [particle]
 
         # Check if any particles are colliding
-        for p_list in particle_pos:
+        for p_list in particle_pos.values():
+            # Check if there are at least 2 particles in the square
             if len(p_list) >= 2:
-                dist_sqr = (p_list[0].x - p_list[1].x) ** 2 + (p_list[0].y - p_list[1].y) ** 2
+                dist = ((p_list[0].x - p_list[1].x) ** 2 + (p_list[0].y - p_list[1].y) ** 2) ** 0.5
+                are_colliding = p_list[0].r + p_list[1].r > dist
+                if are_colliding:
+                    new_vel1 = self.calc_velocity(p_list[0], p_list[1])
+                    new_vel2 = self.calc_velocity(p_list[1], p_list[0])
+
+                    p_list[0].velocity_x = new_vel1[0]
+                    p_list[0].velocity_y = new_vel1[1]
+
+                    p_list[1].velocity_x = new_vel2[0]
+                    p_list[1].velocity_y = new_vel2[1]
+
+    @staticmethod
+    def calc_velocity(p1, p2):
+        mass_diff = p1.mass - p2.mass
+        mass_sum = p1.mass + p2.mass
+
+        new_vel_x = (p1.velocity_x * mass_diff + (2 * p2.mass * p2.velocity_x)) / mass_sum
+        new_vel_y = (p1.velocity_y * mass_diff + (2 * p2.mass * p2.velocity_y)) / mass_sum
+
+        return (new_vel_x, new_vel_y)
