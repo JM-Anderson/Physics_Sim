@@ -1,6 +1,5 @@
 # VS Code
-.vscode/settings.json
-.vscode/launch.json
+.vscode
 
 # PyCache
 __pycache__
