@@ -10,6 +10,8 @@ class particle_types(Enum):
 
 
 class particle:
+    in_collision = False
+
     def __init__(self, prim_creator, sim, x, y, r, p_type, color):
         if p_type == particle_types.square:
             self.prim = prim_creator.square(x, y, r, color)
@@ -45,11 +47,23 @@ class particle:
         self.y += y
         self.prim.move(x, y)
 
+    def p_move(self, dt):
+        self.move(self.velocity_x * dt,
+                  self.velocity_y * dt)
+
     def set_pos(self, x, y):
         self.x = x
         self.y = y
 
         self.prim.set_pos(x, y)
+
+    def add_vel(self, vx, vy):
+        self.velocity_x += vx
+        self.velocity_y += vy
+
+    def set_vel(self, vx, vy):
+        self.velocity_x = vx
+        self.velocity_y = vy
 
     def update(self, dt):
         # Calculate and apply acceleration

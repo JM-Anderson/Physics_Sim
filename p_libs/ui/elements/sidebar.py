@@ -158,7 +158,7 @@ class sidebar(GUIElement):
             return None
 
         # Get radius setting from slider
-        settings['radius'] = 3
+        settings['radius'] = 9
         """ Temporarily removed
         settings['radius'] = self.elems['radius'].content[1].value
         """
