@@ -1,7 +1,6 @@
 import pyglet
 import time
 import math
-import numpy as np
 
 from itertools import combinations
 
@@ -51,6 +50,8 @@ class sim:
                                   settings['color'])
 
         p.mass = settings['mass']
+        p.velocity_x = settings['vel_x']
+        p.velocity_y = settings['vel_y']
 
         if settings['gravity']:
             p.force_y += self.constants['g'] * p.mass
@@ -64,8 +65,6 @@ class sim:
     # Called every frame
     # After window is cleared - before elements are redrawn
     def loop(self):
-        print('new-frame')
-
         now = time.time()
         self.delta_t = now - self.last_time
         self.last_time = now

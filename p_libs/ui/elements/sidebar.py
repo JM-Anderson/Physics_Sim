@@ -74,6 +74,31 @@ class sidebar(GUIElement):
                              value=1)
         elems['mass'] = HoriCont([m_display, m_slider])
 
+        max_vel = 50
+        # Velocity_x setting
+        vx_lbl = Label('X velocity:')
+        vx_display = Label('0.0 m/s')
+        vx_slider = HoriSlide(on_set=lambda x: self.lbl_slider(x,
+                                                               vx_display,
+                                                               digits=3,
+                                                               after=' m/s'),
+                              min_value=-1 * max_vel,
+                              max_value=max_vel,
+                              value=0)
+        elems['x_velocity'] = VertCont([vx_lbl, HoriCont([vx_display, vx_slider])])
+
+        # Velocity_y setting
+        vy_lbl = Label('Y velocity:')
+        vy_display = Label('0.0 m/s')
+        vy_slider = HoriSlide(on_set=lambda x: self.lbl_slider(x,
+                                                               vy_display,
+                                                               digits=3,
+                                                               after=' m/s'),
+                              min_value=-1 * max_vel,
+                              max_value=max_vel,
+                              value=0)
+        elems['y_velocity'] = VertCont([vy_lbl, HoriCont([vy_display, vy_slider])])
+
         # Color setting
         red_in = TextInput(' 255',
                            length=4,
@@ -96,7 +121,7 @@ class sidebar(GUIElement):
         elems['color'] = HoriCont([red_in, green_in, blue_in])
 
         # Gravity setting
-        elems['gravity'] = Checkbox('Has gravity', is_pressed=True)
+        elems['gravity'] = Checkbox('Has gravity', is_pressed=False)
 
         self.elems = elems
 
@@ -165,6 +190,10 @@ class sidebar(GUIElement):
 
         # Get mass from slider
         settings['mass'] = self.elems['mass'].content[1].value
+
+        # Get velocity vector
+        settings['vel_x'] = self.elems['x_velocity'].content[1].content[1].value
+        settings['vel_y'] = self.elems['y_velocity'].content[1].content[1].value
 
         # Get color settings
         settings['color'] = self.last_color.values()
